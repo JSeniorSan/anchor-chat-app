@@ -15,8 +15,6 @@ export const handleDeleteAction = async (
   courseId: string,
   revalidatePagePath: string
 ) => {
-  "use server";
-
   await coursesRepository.deleteCourseElement({ id: courseId });
   revalidatePath(revalidatePagePath);
 };
