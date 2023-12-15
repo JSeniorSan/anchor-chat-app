@@ -5,6 +5,14 @@
     @apply flex flex-col gap-10;
   }
 
+  a {
+    @apply block;
+
+    & > svg.active {
+      @apply text-white;
+    }
+  }
+
   svg {
     @apply duration-200 ease-in-out transition-colors text-[var(--color-sidebar-svg)];
     &:hover {
@@ -12,8 +20,3 @@
     }
   }
 }
-/* color="var(--color-sidebar-svg)"
-color="var(--color-sidebar-svg)"
-color="var(--color-sidebar-svg)"
-color="var(--color-sidebar-svg)"
-color="var(--color-sidebar-svg)" */
