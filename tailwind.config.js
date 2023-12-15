@@ -16,6 +16,8 @@ module.exports = {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
       colors: {
+        borderColor: "rgba(156, 156, 156, 0.251)",
+        bgMainColor: "#202020",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

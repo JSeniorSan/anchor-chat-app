@@ -1,0 +1,19 @@
+.sideBar {
+  @apply h-screen border border-transparent flex flex-col items-center justify-between gap-5 bg-bgMainColor py-5 border-r-borderColor bg-opacity-70 backdrop-blur-md;
+
+  div {
+    @apply flex flex-col gap-10;
+  }
+
+  svg {
+    @apply duration-200 ease-in-out transition-colors text-[var(--color-sidebar-svg)];
+    &:hover {
+      @apply text-white;
+    }
+  }
+}
+/* color="var(--color-sidebar-svg)"
+color="var(--color-sidebar-svg)"
+color="var(--color-sidebar-svg)"
+color="var(--color-sidebar-svg)"
+color="var(--color-sidebar-svg)" */

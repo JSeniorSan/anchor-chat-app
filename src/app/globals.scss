@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-sidebar-svg: #d7d7d7;
+  --color-bg-template: #202020;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -70,7 +75,8 @@
   * {
     @apply border-border;
   }
+  html,
   body {
-    @apply bg-background text-foreground h-full w-full;
+    @apply bg-background text-foreground min-h-screen w-full bg-gradient-to-br from-indigo-400 to-red-400;
   }
 }

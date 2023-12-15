@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import { Viewport } from "next";
+import "./globals.scss";
 import { Inter as FontSans } from "next/font/google";
 import { cn } from "../shared/ui/utils";
+import LayoutClient from "@/widgets/side-bar/pub/layout-client";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -11,6 +13,11 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
   title: "Core Test App🥶",
   description: "Test project at first",
+  icons: "/cube-icon.svg",
+};
+
+export const viewport: Viewport = {
+  themeColor: "dark",
 };
 
 export default function RootLayout({
@@ -26,7 +33,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        {children}
+        <LayoutClient>{children}</LayoutClient>
       </body>
     </html>
   );
