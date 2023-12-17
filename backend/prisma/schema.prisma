@@ -11,13 +11,11 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())  
+  id Int @id @default(autoincrement())  
   email String @unique
-  name String
-  // secondName String?
-  // friends Friend[]
-  // status String?
-  // password String
+  name String?
+  password String
+
 }
 
 
