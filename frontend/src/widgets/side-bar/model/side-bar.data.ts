@@ -9,12 +9,13 @@ export const SIDE_BAR_DATA = [
     url: "/calls",
     Icon: Phone,
   },
-  {
-    url: "/settings",
-    Icon: CogIcon,
-  },
+
   {
     url: "/messages",
     Icon: MessagesSquare,
+  },
+  {
+    url: "/settings",
+    Icon: CogIcon,
   },
 ];

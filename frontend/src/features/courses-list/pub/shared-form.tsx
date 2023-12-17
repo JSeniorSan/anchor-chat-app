@@ -22,12 +22,14 @@ const createCourseSchema = z.object({
   description: z.string(),
 });
 
-const CreateCourseForm = ({
+const SharedForm = ({
   revalidatePagePath,
   className,
+  type,
 }: {
   revalidatePagePath: string;
-  className: string;
+  className?: string;
+  type: "register" | "login";
 }) => {
   const form = useForm({
     resolver: zodResolver(createCourseSchema),
@@ -52,9 +54,9 @@ const CreateCourseForm = ({
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Название</FormLabel>
+              <FormLabel>username</FormLabel>
               <FormControl>
-                <Input placeholder="Название..." {...field} />
+                <Input placeholder="username" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -65,20 +67,20 @@ const CreateCourseForm = ({
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Описание</FormLabel>
+              <FormLabel>password</FormLabel>
               <FormControl>
-                <Textarea placeholder="описание" {...field} />
+                <Input placeholder="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         <Button type="submit" disabled={isCreateLoading}>
-          Создать
+          {type === "login" ? "sign in" : "sign up"}
         </Button>
       </form>
     </Form>
   );
 };
 
-export default CreateCourseForm;
+export default SharedForm;

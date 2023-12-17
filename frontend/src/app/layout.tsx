@@ -4,6 +4,7 @@ import "./globals.scss";
 import { Inter as FontSans } from "next/font/google";
 import { cn } from "../shared/ui/utils";
 import LayoutClient from "@/widgets/side-bar/pub/layout-client";
+import AuthForm from "@/features/auth/pub/auth-form";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -25,15 +26,20 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const value = false;
   return (
     <html lang="en">
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
+          fontSans.variable,
+          {
+            ["flex justify-center items-center"]: !value,
+          }
         )}
       >
-        <LayoutClient>{children}</LayoutClient>
+        {value && <LayoutClient>{children}</LayoutClient>}
+        {!value && <AuthForm type="login" />}
       </body>
     </html>
   );
