@@ -8,10 +8,10 @@ import {
   Form,
 } from "@/shared/ui/form";
 import { Input } from "@/shared/ui/input";
-import { Textarea } from "@/shared/ui/textarea";
+// import { Textarea } from "@/shared/ui/textarea";
 import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { createCourseAction } from "../actions";
+// import { createCourseAction } from "../actions";
 import { Button } from "@/shared/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -43,9 +43,9 @@ const SharedForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit((data) => {
-          startCreateTransition(async () => {
-            await createCourseAction(revalidatePagePath, data);
-          });
+          // startCreateTransition(async () => {
+          //   await createCourseAction(revalidatePagePath, data);
+          // });
         })}
         className={cn(className, "space-y-5")}
       >
