@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import styles from "./side-bar-widget.module.scss";
 
 const LayoutSideBar = ({

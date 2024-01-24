@@ -3,8 +3,6 @@ import { Viewport } from "next";
 import "./globals.scss";
 import { Inter as FontSans } from "next/font/google";
 import { cn } from "../shared/ui/utils";
-import LayoutClient from "@/widgets/side-bar/pub/layout-client";
-import AuthForm from "@/features/auth/pub/auth-form";
 import { ThemeProvider } from "@/features/theme/theme-provider";
 
 const fontSans = FontSans({
@@ -45,8 +43,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {value && <LayoutClient>{children}</LayoutClient>}
-          {!value && <AuthForm type="login" />}
+          {children}
         </ThemeProvider>
       </body>
     </html>

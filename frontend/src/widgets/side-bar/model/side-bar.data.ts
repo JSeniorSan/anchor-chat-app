@@ -2,20 +2,20 @@ import { CogIcon, MessagesSquare, Phone, Users } from "lucide-react";
 
 export const SIDE_BAR_DATA = [
   {
-    url: "/friends",
+    url: "/social/friends",
     Icon: Users,
   },
   {
-    url: "/calls",
+    url: "/social/calls",
     Icon: Phone,
   },
 
   {
-    url: "/messages",
+    url: "/social/messages",
     Icon: MessagesSquare,
   },
   {
-    url: "/settings",
+    url: "/social/settings",
     Icon: CogIcon,
   },
 ];
