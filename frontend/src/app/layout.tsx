@@ -5,6 +5,7 @@ import { Inter as FontSans } from "next/font/google";
 import { cn } from "../shared/ui/utils";
 import LayoutClient from "@/widgets/side-bar/pub/layout-client";
 import AuthForm from "@/features/auth/pub/auth-form";
+import { ThemeProvider } from "@/features/theme/theme-provider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -26,9 +27,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const value = false;
+  const value = true;
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
@@ -38,8 +39,15 @@ export default function RootLayout({
           }
         )}
       >
-        {value && <LayoutClient>{children}</LayoutClient>}
-        {!value && <AuthForm type="login" />}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {value && <LayoutClient>{children}</LayoutClient>}
+          {!value && <AuthForm type="login" />}
+        </ThemeProvider>
       </body>
     </html>
   );
