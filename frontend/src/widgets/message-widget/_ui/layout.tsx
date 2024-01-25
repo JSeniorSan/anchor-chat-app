@@ -12,7 +12,7 @@ const DialogMenuLayout = ({
   chats?: React.ReactNode;
 }) => {
   return (
-    <section className="flex flex-col w-full h-screen ">
+    <section className="flex flex-col w-full h-screen">
       {userProfile}
       {finder}
       {stories}

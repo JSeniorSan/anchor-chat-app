@@ -4,7 +4,7 @@ import React from "react";
 
 const FinderWidget = () => {
   return (
-    <div className="flex justify-between p-3 items-center border-borderColor border-b">
+    <div className="flex justify-between p-3 items-center border-borderColor border-b gap-3">
       <div className="flex items-center gap-1">
         <Search />
         <Input
