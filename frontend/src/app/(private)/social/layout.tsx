@@ -1,8 +1,10 @@
+"use client";
 import LayoutClient from "@/widgets/side-bar/pub/layout-client";
-import React from "react";
+import React, { useLayoutEffect } from "react";
+import AuthHoc from "@/entities/auth-hoc/auth-hoc";
 
-const layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return <LayoutClient>{children}</LayoutClient>;
 };
 
-export default layout;
+export default AuthHoc(Layout);

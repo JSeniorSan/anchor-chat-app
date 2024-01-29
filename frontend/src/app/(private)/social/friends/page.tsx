@@ -1,7 +1,8 @@
+import { db } from "@/shared/lib/db";
 import React from "react";
 
-const page = () => {
-  return <div>friends</div>;
+const Friends = () => {
+  return <div>data</div>;
 };
 
-export default page;
+export default Friends;

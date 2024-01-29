@@ -15,14 +15,10 @@ import { LogOut, MoreHorizontal } from "lucide-react";
 import { useAppSession } from "@/entities/session/use-app-session";
 import { useSignOut } from "@/features/auth/use-sign-out";
 import { Skeleton } from "@/shared/ui/skeleton";
-import ButtonSignIn from "@/features/auth/button-sign-in";
 
 const UserProfileWidget = () => {
   const session = useAppSession();
   const { isPending: isLoading, signOut } = useSignOut();
-  if (session.status === "unauthenticated") {
-    return <ButtonSignIn />;
-  }
 
   const handleClick = () => signOut();
   return (

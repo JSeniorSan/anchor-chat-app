@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./layout-client.module.scss";
 import LayoutSideBar from "../_ui/layout";
 import { ModeToggle } from "@/features/theme/toggle-theme";
