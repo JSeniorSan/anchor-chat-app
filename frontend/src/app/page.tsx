@@ -11,7 +11,10 @@ export default async function Home() {
         <LogoIcon fontSize={"100px"} className="absolute right-5 top-40" />
       </section>
       <Link href={"/social/messages"} className=" left-[300px] top-[800px]">
-        <Button className="m-10 text-5xl w-60 h-40">Continue</Button>
+        <Button className="m-10 text-5xl w-60 h-40">Sign in</Button>
+      </Link>
+      <Link href={"/api/registration"} className=" left-[300px] top-[800px]">
+        <Button className="m-10 text-5xl w-60 h-40">Sign up</Button>
       </Link>
       <section>
         <div className="text-9xl font-extrabold w-fit text p-10 ml-96">

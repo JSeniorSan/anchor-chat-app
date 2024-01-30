@@ -8,7 +8,7 @@ export const useSignOut = () => {
   const mutation = useMutation({
     mutationFn: () =>
       signOut({
-        callbackUrl: "/",
+        callbackUrl: "/api/auth/signin",
       }),
     onSuccess: async () => {
       router.push("/api/auth/signin");
