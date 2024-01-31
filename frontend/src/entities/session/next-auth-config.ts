@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/shared/lib/db";
 import { AuthOptions } from "next-auth";
+import { createUser, getUser } from "./actions";
 
 export const nextAuthConfig: AuthOptions = {
   session: {
@@ -36,32 +37,17 @@ export const nextAuthConfig: AuthOptions = {
         };
         console.log("scheme", email, password);
 
-        // const user = await db.user.findUnique({
-        //   where: {
-        //     email,
-        //     password,
-        //   },
-        // });
-        // console.log("user", user);
-        const user = {
-          email: "vip007_007@mail.ru",
-          password: "Vbif23_7",
-          id: "12345",
-        };
+        const { auth, user } = await getUser(email, password);
 
-        if (user && email === "vip007_007@mail.ru" && password === "Vbif23_7") {
-          console.log("sign in", user.id, user.email);
-          return { id: user.id, email: user.email };
+        console.log("user", user, auth);
+
+        if (auth) {
+          return user;
         } else {
           console.log("register");
-          // const newUser = await db.user.create({
-          //   data: {
-          //     email: email,
-          //     password: password,
-          //   },
-          // });
+          await createUser(password, email);
 
-          return null;
+          return null as any;
         }
       },
     }),

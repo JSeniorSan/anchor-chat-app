@@ -8,7 +8,6 @@ const SignInServer = async () => {
   const oauthproviders = Object.values(providers ?? []).filter(
     (provider) => provider.type === "oauth"
   );
-  console.log("providers", providers);
 
   return (
     <div className="flex flex-col p-20 items-center">
