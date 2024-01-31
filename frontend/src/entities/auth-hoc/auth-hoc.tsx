@@ -12,6 +12,7 @@ const AuthHoc = (Component: any) => {
       if (session.status === "unauthenticated") {
         route.push("/api/auth/signin");
       }
+      console.log("status", session.status);
     }, [session]);
 
     return <Component {...props} />;
