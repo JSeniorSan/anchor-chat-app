@@ -6,7 +6,7 @@ const ChatsWidget = () => {
   return (
     <section className=" flex flex-col overflow-hidden hover:overflow-y-scroll overflow-x-hidden h-screen">
       {friendsArray.map((obj) => {
-        return <UserChatUi name={obj.name} />;
+        return <UserChatUi />;
       })}
     </section>
   );

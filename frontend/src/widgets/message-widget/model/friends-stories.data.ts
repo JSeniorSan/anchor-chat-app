@@ -1,1 +1,5 @@
-export const friendsArray = [];
+export const friendsArray = [
+  {
+    name: "Ira",
+  },
+];
