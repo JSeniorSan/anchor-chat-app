@@ -47,6 +47,16 @@ model User {
   accounts      Account[]
   sessions      Session[]
   password      String?
+  friends       Friend[] 
+}
+
+model Friend  {
+  id           String   @id @default(cuid())
+  user         User     @relation(fields: [id], references: [id])
+  name         String? 
+  email        String?  @unique
+  image        String?
+  session      String?
 }
 
 model VerificationToken {
