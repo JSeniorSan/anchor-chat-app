@@ -19,6 +19,7 @@ import { Skeleton } from "@/shared/ui/skeleton";
 const UserProfileWidget = () => {
   const session = useAppSession();
   const { isPending: isLoading, signOut } = useSignOut();
+  console.log("session", session);
 
   const handleClick = () => signOut();
   return (

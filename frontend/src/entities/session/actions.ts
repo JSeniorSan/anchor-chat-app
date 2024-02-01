@@ -1,3 +1,4 @@
+"use server";
 import { db } from "@/shared/lib/db";
 
 export async function getUser(email: string, password: string) {
@@ -19,17 +20,4 @@ export async function getUser(email: string, password: string) {
       auth: false,
     };
   }
-}
-
-export async function createUser(email: string, password: string) {
-  await db.user.create({
-    data: {
-      email: email,
-      password: password,
-    },
-  });
-
-  const { user } = await getUser(email, password);
-
-  return user;
 }
