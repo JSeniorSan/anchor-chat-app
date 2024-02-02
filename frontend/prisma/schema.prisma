@@ -10,21 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
-
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
@@ -47,21 +45,41 @@ model User {
   accounts      Account[]
   sessions      Session[]
   password      String?
-  friends       Friend[] 
+  friends       Friend[]
+  chats         Chat[]
+  message       Message[]
+  currentSession String?
 }
 
-model Friend  {
-  id           String   @id @default(cuid())
-  user         User     @relation(fields: [id], references: [id])
-  name         String? 
-  email        String?  @unique
-  image        String?
-  session      String?
+model Friend {
+  id      String  @id @default(cuid())
+  user    User    @relation(fields: [userId], references: [id])
+  session String?
+  userId  String
+  userEmail String?
+  userName  String?
+}
+
+model Chat {
+  id       String    @id @default(cuid())
+  title    String
+  messages Message[]
+  members  User[]
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  content    String?
+  author     User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  chat       Chat?    @relation(fields: [chatId], references: [id])
+  chatId     String?
 }
 
 model VerificationToken {
   identifier String
-  token      String   
+  token      String
   expires    DateTime
 
   @@unique([identifier, token])

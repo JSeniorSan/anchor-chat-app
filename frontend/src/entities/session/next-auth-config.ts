@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/shared/lib/db";
 import { AuthOptions } from "next-auth";
+import { UserType } from "./model/types";
 
 export const nextAuthConfig: AuthOptions = {
   session: {

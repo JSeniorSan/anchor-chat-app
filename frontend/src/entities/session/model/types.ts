@@ -1,20 +1,16 @@
-export type UserType =
-  | {
-      id: string;
-      name: string | null;
-      email: string | null;
-      emailVerified: Date | null;
-      image: string | null;
-      password: string | null;
-      // friends: UserFriendType[];
-    }
-  | undefined;
+import {
+  ChatTypes,
+  FriendsType,
+} from "@/widgets/message-widget/model/friends-types";
 
-export type UserFriendType = {
-  id: String;
-  user: String;
-  name: String;
-  email: String;
-  image: String;
-  session: String;
+export type UserType = {
+  id: string;
+  name: string | null;
+  email: string | null;
+  emailVerified: Date | null;
+  image: string | null;
+  password: string | null;
+  friends: FriendsType[];
+  chats: ChatTypes[];
+  currentSession: string;
 };

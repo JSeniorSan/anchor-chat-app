@@ -1,14 +1,17 @@
 import React from "react";
-import { friendsArray } from "../model/friends-stories.data";
 import UserChatUi from "./user-chat-ui";
+import { getFriends } from "./actions";
 
-const ChatsWidget = () => {
+const ChatsWidget = async () => {
+  const friends = await getFriends();
+  console.log("friends", friends);
+
   return (
-    <section className=" flex flex-col overflow-hidden hover:overflow-y-scroll overflow-x-hidden h-screen">
-      {friendsArray.map((obj) => {
-        return <UserChatUi />;
+    <div className=" flex flex-col overflow-hidden hover:overflow-y-scroll overflow-x-hidden h-screen">
+      {friends?.map((friend) => {
+        return <UserChatUi name={friend.userName} />;
       })}
-    </section>
+    </div>
   );
 };
 
