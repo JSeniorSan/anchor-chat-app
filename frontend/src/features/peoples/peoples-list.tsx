@@ -3,10 +3,12 @@ import { getAllMembers } from "./actions";
 
 const PeoplesList = async () => {
   const members = await getAllMembers();
+  console.log("members", members);
+
   return (
-    <div className="h-screen w-full p-5 flex flex-wrap gap-5">
-      {members.map((member) => {
-        return <PeopleCard member={member} />;
+    <div className="h-fit w-full p-5 flex flex-wrap gap-5">
+      {members.map((user) => {
+        return <PeopleCard user={user} type="user" key={user.email} />;
       })}
     </div>
   );

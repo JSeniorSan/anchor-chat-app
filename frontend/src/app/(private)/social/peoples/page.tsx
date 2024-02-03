@@ -1,11 +1,13 @@
+import FriendsList from "@/features/friends/friends-list";
 import PeoplesList from "@/features/peoples/peoples-list";
 import React from "react";
 
 const Peoples = () => {
   return (
-    <div className="flex flex-col gap-5">
-      <div className="text-4xl font-bold p-5 border-b-2">All members</div>
+    <div className="flex flex-col gap-5 w-full">
+      <div className="text-4xl font-bold p-5 border">All members</div>
       <PeoplesList />
+      <FriendsList />
     </div>
   );
 };
