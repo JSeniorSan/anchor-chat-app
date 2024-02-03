@@ -2,13 +2,20 @@ import PeopleCard from "./_ui/_people-card";
 import { getAllMembers } from "./actions";
 
 const PeoplesList = async () => {
-  const members = await getAllMembers();
-  console.log("members", members);
-
+  const users = await getAllMembers();
+  console.log("members", users);
   return (
     <div className="h-fit w-full p-5 flex flex-wrap gap-5">
-      {members.map((user) => {
-        return <PeopleCard user={user} type="user" key={user.email} />;
+      {users.map((user) => {
+        return (
+          <PeopleCard
+            user={user}
+            email={user.email}
+            image={user.image}
+            username={user.name}
+            key={user.email}
+          />
+        );
       })}
     </div>
   );

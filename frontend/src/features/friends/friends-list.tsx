@@ -1,16 +1,29 @@
-import { db } from "@/shared/lib/db";
 import PeopleCard from "../peoples/_ui/_people-card";
+import { getCurrentUser } from "./action";
+
+export type Friend = {
+  id: string;
+  status: boolean | null;
+  userId: string;
+  userEmail: string | null;
+  userName: string | null;
+};
 
 const FriendsList = async () => {
-  const friends = await db.friend.findMany();
-  console.log("friends", friends);
+  // const friends = await db.friend.findMany();
+  const currentUser = await getCurrentUser();
 
   return (
     <div className="flex gap-5 p-5 w-full h-fit border flex-col">
       <div className="text-3xl font-bold p-2 ">Friends</div>
-      {friends.map((friend) => {
+      {currentUser?.userFriends.map((friend) => {
         return (
-          <PeopleCard member={friend} type="friend" key={friend.userEmail} />
+          <PeopleCard
+            email={friend.userEmail}
+            image={null}
+            username={friend.userName}
+            key={friend.userEmail}
+          />
         );
       })}
     </div>

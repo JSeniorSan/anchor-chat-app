@@ -34,23 +34,4 @@ export const createUserFriend = async (member: User) => {
     },
   });
   console.log("friend", friend);
-
-  // const newFriend = await db.user.create({
-  //   include: {
-  //     userFriends: true,
-  //   },
-  //   data: {
-  //     userFriends: {
-  //       create: {
-  //         userEmail: member.email,
-  //         id: member.id,
-  //         friendId: currentUser?.id,
-  //         status: true,
-  //         userName: member.name,
-  //         friend: currentUser?.id
-  //       }
-  //     }
-
-  //   },
-  // });
 };

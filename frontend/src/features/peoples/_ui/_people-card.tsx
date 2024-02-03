@@ -1,28 +1,20 @@
 "use client";
-import { UserType } from "@/entities/session/model/types";
-import { db } from "@/shared/lib/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { createUserFriend } from "../actions";
 import { User } from "../model/types";
 
-export type Member = {
-  id: string;
-  status: boolean | null;
-  userId: string;
-  userEmail: string | null;
-  userName: string | null;
-};
-
 const PeopleCard = ({
   user,
-  member,
-  type,
+  email,
+  image,
+  username,
 }: {
   user?: User;
-  type: "friend" | "user";
-  member?: Member;
+  username: string | null;
+  email: string | null;
+  image: string | null;
 }) => {
   const handleOnClick = async () => {
     if (user) {
@@ -37,14 +29,14 @@ const PeopleCard = ({
     >
       <CardHeader className="flex gap-3">
         <Avatar>
-          <AvatarImage src={user?.image as string | undefined} />
+          <AvatarImage src={image ?? undefined} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <CardTitle>{user?.name}</CardTitle>
+        <CardTitle>{username}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-5">
         <Button className="w-32 ">Send a message</Button>
-        {type === "user" && (
+        {user && (
           <Button className="w-32" onClick={handleOnClick}>
             Add to friends
           </Button>
