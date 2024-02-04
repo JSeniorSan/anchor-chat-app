@@ -10,7 +10,6 @@ const PeoplesList = async () => {
         return (
           <PeopleCard
             user={user}
-            email={user.email}
             image={user.image}
             username={user.name}
             key={user.email}

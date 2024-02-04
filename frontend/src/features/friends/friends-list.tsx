@@ -10,22 +10,23 @@ export type Friend = {
 };
 
 const FriendsList = async () => {
-  // const friends = await db.friend.findMany();
   const currentUser = await getCurrentUser();
 
   return (
-    <div className="flex gap-5 p-5 w-full h-fit border flex-col">
+    <div className="flex gap-5 p-5 w-full h-full border flex-col">
       <div className="text-3xl font-bold p-2 ">Friends</div>
-      {currentUser?.userFriends.map((friend) => {
-        return (
-          <PeopleCard
-            email={friend.userEmail}
-            image={null}
-            username={friend.userName}
-            key={friend.userEmail}
-          />
-        );
-      })}
+      <div className="flex gap-5 h-full flex-wrap">
+        {currentUser?.userFriends.map((friend) => {
+          return (
+            <PeopleCard
+              image={friend.image ?? null}
+              username={friend.userName}
+              id={friend.id}
+              key={friend.userEmail}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

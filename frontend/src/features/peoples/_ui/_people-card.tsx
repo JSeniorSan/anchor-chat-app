@@ -2,23 +2,31 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-import { createUserFriend } from "../actions";
+import { createUserFriend, deleteFriend } from "../actions";
 import { User } from "../model/types";
 
 const PeopleCard = ({
   user,
-  email,
   image,
   username,
+  id,
 }: {
   user?: User;
   username: string | null;
-  email: string | null;
   image: string | null;
+  id?: string | null;
 }) => {
   const handleOnClick = async () => {
     if (user) {
       await createUserFriend(user);
+    }
+  };
+
+  const handleDelete = async () => {
+    console.log("no");
+    if (id) {
+      await deleteFriend(id);
+      console.log("yes");
     }
   };
 
@@ -35,10 +43,15 @@ const PeopleCard = ({
         <CardTitle>{username}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-5">
-        <Button className="w-32 ">Send a message</Button>
+        <Button className="w-36">Send a message</Button>
         {user && (
-          <Button className="w-32" onClick={handleOnClick}>
+          <Button className="w-36" onClick={handleOnClick}>
             Add to friends
+          </Button>
+        )}
+        {!user && (
+          <Button className="w-36" onClick={handleDelete}>
+            Delete friend
           </Button>
         )}
       </CardContent>

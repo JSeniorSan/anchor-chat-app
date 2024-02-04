@@ -7,6 +7,7 @@ export const getCurrentUser = async () => {
   const session: ServerSessionType = await getServerSession(GET);
   const currentUser = await db.user.findFirst({
     include: {
+      friendUserFriends: true,
       userFriends: true,
     },
     where: {
