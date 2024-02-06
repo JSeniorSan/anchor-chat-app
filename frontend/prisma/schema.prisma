@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -21,7 +20,7 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -35,49 +34,52 @@ model Session {
 }
 
 model User {
-  id                    String    @id @default(cuid())
-  name                  String?
-  email                 String?   @unique
-  emailVerified         DateTime?
-  image                 String?
-  accounts              Account[]
-  sessions              Session[]
-  password              String?
-  userFriends           Friend[]    @relation(name: "users")
-  friendUserFriends     Friend[]    @relation(name: "friend_users")
-  chats                 Chat[]
-  message               Message[]
-  status                Boolean?
+  id                String    @id @default(cuid())
+  name              String?
+  email             String?   @unique
+  emailVerified     DateTime?
+  image             String?
+  accounts          Account[]
+  sessions          Session[]
+  password          String?
+  userFriends       Friend[]  @relation(name: "users")
+  friendUserFriends Friend[]  @relation(name: "friend_users")
+  chats             Chat[]    
+  message           Message[]
+  status            Boolean?
+  
+ 
 }
 
 model Friend {
-  id              String      @id @default(cuid())
-  friendId        String?
-  friend          User?       @relation(name: "friend_users", fields: [friendId], references: [id])
-  user            User?       @relation(name: "users", fields: [userId], references: [id])
-  status          Boolean?
-  userId          String?    
-  userEmail       String?     @unique
-  userName        String?
-  image           String?
+  id        String   @id @default(cuid())
+  friendId  String?
+  friend    User?    @relation(name: "friend_users", fields: [friendId], references: [id])
+  user      User?    @relation(name: "users", fields: [userId], references: [id])
+  status    Boolean?
+  userId    String?
+  userEmail String?
+  userName  String?
+  image     String?
 }
-
 
 model Chat {
   id       String    @id @default(cuid())
-  title    String
+  title    String?
   messages Message[]
   members  User[]
+
+
 }
 
 model Message {
-  id         String   @id @default(cuid())
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-  content    String?
-  author     User     @relation(fields: [authorId], references: [id])
+  content   String?
+  author    User?     @relation(fields: [authorId], references: [id])
   authorId  String
-  chat       Chat?    @relation(fields: [chatId], references: [id])
-  chatId     String?
+  chat      Chat?    @relation(fields: [chatId], references: [id])
+  chatId    String?
 }
 
 model VerificationToken {

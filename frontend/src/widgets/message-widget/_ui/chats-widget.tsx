@@ -1,16 +1,16 @@
 import React from "react";
 import UserChatUi from "./user-chat-ui";
-// import { getFriends } from "./actions";
+import { getChats } from "./actions";
 
 const ChatsWidget = async () => {
-  // const friends = await getFriends();
-  // console.log("friends", friends);
+  const chats = await getChats();
+  console.log("friends", chats);
 
   return (
     <div className=" flex flex-col overflow-hidden hover:overflow-y-scroll overflow-x-hidden h-screen">
-      {/* {friends?.map((friend) => {
-        return <UserChatUi name={friend.userName} />;
-      })} */}
+      {chats.map((chat) => {
+        return <div>{chat.title}</div>;
+      })}
     </div>
   );
 };

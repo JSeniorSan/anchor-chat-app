@@ -2,8 +2,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-import { createUserFriend, deleteFriend } from "../actions";
+import { createChat, createUserFriend, deleteFriend } from "../actions";
 import { User } from "../model/types";
+import { redirect } from "next/navigation";
 
 const PeopleCard = ({
   user,
@@ -30,6 +31,12 @@ const PeopleCard = ({
     }
   };
 
+  const handleSendMessage = async () => {
+    const chat = await createChat(user!);
+    console.log("chat", chat);
+    redirect(`/social/messages/${user?.id}`);
+  };
+
   return (
     <Card
       className="w-80 h-64 hover:border-orange-200 transition-all ease-in-out hover:scale-105"
@@ -43,7 +50,9 @@ const PeopleCard = ({
         <CardTitle>{username}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-5">
-        <Button className="w-36">Send a message</Button>
+        <Button className="w-36" onClick={handleSendMessage}>
+          Send a message
+        </Button>
         {user && (
           <Button className="w-36" onClick={handleOnClick}>
             Add to friends

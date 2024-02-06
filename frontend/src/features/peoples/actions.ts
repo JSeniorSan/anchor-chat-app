@@ -5,6 +5,7 @@ import { ServerSessionType } from "@/widgets/message-widget/model/friends-types"
 import { getServerSession } from "next-auth";
 import { User } from "./model/types";
 import { revalidatePath } from "next/cache";
+import { UserType } from "@/entities/session/model/types";
 
 export const getAllMembers = async () => {
   const session: ServerSessionType = await getServerSession(GET);
@@ -82,4 +83,26 @@ export const deleteFriend = async (id: string) => {
   // });
   revalidatePath("/social/peoples");
   console.log("deletedFriend", deletedFirstFriend);
+};
+
+export const createChat = async (companion: any) => {
+  const session: ServerSessionType = await getServerSession(GET);
+  const currentUser = await db.user.findFirst({
+    where: {
+      email: session?.user.email,
+    },
+  });
+
+  const chat = await db.chat.create({
+    data: {
+      title: companion.name,
+      members: {
+        create: [currentUser, companion],
+      },
+    },
+    include: {
+      members: true,
+    },
+  });
+  return chat;
 };

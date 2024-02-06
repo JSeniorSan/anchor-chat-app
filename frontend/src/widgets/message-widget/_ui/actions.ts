@@ -5,16 +5,27 @@ import { db } from "@/shared/lib/db";
 import { getServerSession } from "next-auth";
 import { ServerSessionType } from "../model/friends-types";
 
-// export async function getFriends() {
-//   const session: ServerSessionType = await getServerSession(GET);
-//   console.log("session", session);
+export async function getChats() {
+  const session: ServerSessionType = await getServerSession(GET);
+  const currentUser = await db.user.findFirst({
+    where: {
+      email: session?.user.email,
+    },
+  });
 
-//   const friends = await db.friend.findMany({
-//     where: {
-//       userEmail: session?.user?.email,
-//     },
-//   });
-//   console.log(friends);
+  const chats = await db.chat.findMany({
+    where: {
+      members: {
+        some: {
+          email: currentUser?.email,
+        },
+      },
+    },
+    include: {
+      members: true,
+    },
+  });
+  console.log("chats", chats);
 
-//   return friends;
-// }
+  return chats;
+}
