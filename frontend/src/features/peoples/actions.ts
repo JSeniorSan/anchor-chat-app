@@ -5,7 +5,6 @@ import { ServerSessionType } from "@/widgets/message-widget/model/friends-types"
 import { getServerSession } from "next-auth";
 import { User } from "./model/types";
 import { revalidatePath } from "next/cache";
-import { UserType } from "@/entities/session/model/types";
 
 export const getAllMembers = async () => {
   const session: ServerSessionType = await getServerSession(GET);
@@ -17,7 +16,6 @@ export const getAllMembers = async () => {
   const members = await db.user.findMany({
     include: {
       userFriends: true,
-      friendUserFriends: true,
     },
     where: {
       NOT: {
@@ -28,7 +26,12 @@ export const getAllMembers = async () => {
   return members;
 };
 
-export const createUserFriend = async (member: User) => {
+export const createUserFriend = async (
+  username: string,
+  email: string,
+  userId: string,
+  image: string
+) => {
   const session: ServerSessionType = await getServerSession(GET);
   const currentUser = await db.user.findFirst({
     where: {
@@ -36,54 +39,122 @@ export const createUserFriend = async (member: User) => {
     },
   });
 
-  console.log("currentUser", currentUser);
+  const guardFriend = await db.friend.findFirst({
+    where: {
+      friendEmail: email,
+      userId: userId,
+    },
+  });
 
-  if (currentUser?.id !== member.id) {
-    const friend = await db.friend.create({
+  if (!guardFriend) {
+    const createFirstUser = await db.friend.create({
+      include: {
+        user: true,
+      },
       data: {
-        friendId: member.id,
+        image: image,
+        userName: username,
         status: true,
-        userEmail: member.email,
-        userName: member.name,
+        friendEmail: email,
         userId: currentUser?.id,
       },
     });
-    const backFriend = await db.friend.create({
+    const createSecondUser = await db.friend.create({
+      include: {
+        user: true,
+      },
       data: {
-        friendId: currentUser?.id,
-        status: true,
-        userEmail: currentUser?.email,
+        image: currentUser?.image,
         userName: currentUser?.name,
-        userId: member?.id,
+        status: true,
+        friendEmail: currentUser?.email,
+        userId: userId,
       },
     });
-    console.log("friend", friend, backFriend);
-    revalidatePath("/social/peoples");
+
+    //
+    console.log(
+      "currentUser",
+      currentUser,
+      "firstFriend",
+      createFirstUser,
+      "secondFriend",
+      createSecondUser
+    );
   }
+
+  console.log("current", currentUser);
+
+  // await db.friend.createMany({
+  //   data: [
+  //     {
+  //       status: true,
+  //       userName: member.name,
+  //       userId: currentUser?.id,
+  //       friendEmail: member.email,
+  //     },
+  //     {
+  //       status: true,
+  //       userName: currentUser?.name,
+  //       userId: member?.id,
+  //       friendEmail: currentUser?.email,
+  //     },
+  //   ],
+  // });
+  // const friends = await db.friend.findMany();
+
+  revalidatePath("/social/peoples");
 };
 
-export const deleteFriend = async (id: string) => {
+export const deleteFriend = async (
+  userId: string,
+  id: string,
+  email: string
+) => {
   const session: ServerSessionType = await getServerSession(GET);
   const currentUser = await db.user.findFirst({
     where: {
       email: session?.user.email,
     },
   });
-  const deletedFirstFriend = await db.friend.delete({
-    where: {
-      id: id,
-      userId: currentUser?.id,
-    },
-  });
-  // const deletedSecondFriend = await db.friend.delete({
+  const friends = await db.friend.deleteMany();
+  // const deletedFirstFriend = await db.friend.delete({
   //   where: {
-  //     id: currentUser?.id,
   //     userId: id,
   //   },
   // });
+  // const updatedFirstFriend = await db.user.update({
+  //   where: {
+  //     id: userId,
+  //   },
+  //   include: {
+  //     userFriends: true,
+  //   },
+  //   data: {
+  //     userFriends: {
+  //       disconnect: {
+  //         id: id,
+  //       },
+  //     },
+  //   },
+  // });
+
+  // console.log("deletedFriend", updatedFirstFriend);
+  // console.log(
+  //   id,
+  //   "email",
+  //   email,
+  //   "friends",
+  //   friends,
+  //   "id",
+  //   id,
+  //   "current",
+  //   currentUser
+  // );
   revalidatePath("/social/peoples");
-  console.log("deletedFriend", deletedFirstFriend);
 };
+
+// -------------------------------------------------------
 
 export const createChat = async (companion: any) => {
   const session: ServerSessionType = await getServerSession(GET);
@@ -106,3 +177,44 @@ export const createChat = async (companion: any) => {
   });
   return chat;
 };
+
+// const updateFirstFriendship = await db.user.update({
+//   where: {
+//     id: currentUser?.id,
+//   },
+//   include: {
+//     userFriends: true,
+//   },
+//   data: {
+//     userFriends: {
+//       create: {
+//         image: image,
+//         userName: username,
+//         status: true,
+//         friendEmail: email,
+//         friendId: currentUser?.id,
+//       },
+//     },
+//   },
+// });
+
+// //
+// const updateSecondFriendship = await db.user.update({
+//   where: {
+//     email: email,
+//   },
+//   include: {
+//     userFriends: true,
+//   },
+//   data: {
+//     userFriends: {
+//       create: {
+//         image: currentUser?.image,
+//         userName: currentUser?.name,
+//         status: true,
+//         friendEmail: currentUser?.email,
+//         friendId: userId,
+//       },
+//     },
+//   },
+// });

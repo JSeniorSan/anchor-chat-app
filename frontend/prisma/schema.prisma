@@ -35,41 +35,42 @@ model Session {
 
 model User {
   id                String    @id @default(cuid())
-  name              String?
+  name              String?   
   email             String?   @unique
   emailVerified     DateTime?
   image             String?
   accounts          Account[]
   sessions          Session[]
   password          String?
-  userFriends       Friend[]  @relation(name: "users")
-  friendUserFriends Friend[]  @relation(name: "friend_users")
-  chats             Chat[]    
-  message           Message[]
+  userFriends       Friend[]   @relation("user's friend")
+  userFriendFriends Friend[]   @relation("user's friend friend")
+  chats             Chat[]   
+  message           Message[] 
   status            Boolean?
-  
- 
+  createdAt         DateTime?  @default(now())
 }
+
+
 
 model Friend {
   id        String   @id @default(cuid())
+  user      User?    @relation("user's friend",fields: [userId], references: [id])
+  friend    User?    @relation("user's friend friend", fields: [friendId], references: [id])
   friendId  String?
-  friend    User?    @relation(name: "friend_users", fields: [friendId], references: [id])
-  user      User?    @relation(name: "users", fields: [userId], references: [id])
   status    Boolean?
-  userId    String?
-  userEmail String?
+  userId    String?   
   userName  String?
   image     String?
+  friendEmail String? 
 }
 
 model Chat {
   id       String    @id @default(cuid())
   title    String?
-  messages Message[]
-  members  User[]
-
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  messages Message[] 
+  members  User[] 
 }
 
 model Message {

@@ -9,9 +9,11 @@ const PeoplesList = async () => {
       {users.map((user) => {
         return (
           <PeopleCard
-            user={user}
+            state="user"
             image={user.image}
             username={user.name}
+            userId={user.id}
+            email={user.email}
             key={user.email}
           />
         );

@@ -7,40 +7,44 @@ import { User } from "../model/types";
 import { redirect } from "next/navigation";
 
 const PeopleCard = ({
-  user,
+  state,
   image,
   username,
   id,
+  email,
+  userId,
 }: {
-  user?: User;
+  state: "friend" | "user";
+  userId?: string | null;
+  email?: string | null;
   username: string | null;
   image: string | null;
-  id?: string | null;
+  id?: string;
 }) => {
   const handleOnClick = async () => {
-    if (user) {
-      await createUserFriend(user);
+    if (email) {
+      console.log(email, username, userId, image);
+      await createUserFriend(email, username!, userId!, image!);
     }
   };
 
   const handleDelete = async () => {
-    console.log("no");
-    if (id) {
-      await deleteFriend(id);
-      console.log("yes");
-    }
+    console.log("friends", id);
+
+    await deleteFriend(id!, email!, userId!);
+    console.log("yes");
   };
 
-  const handleSendMessage = async () => {
-    const chat = await createChat(user!);
-    console.log("chat", chat);
-    redirect(`/social/messages/${user?.id}`);
-  };
+  // const handleSendMessage = async () => {
+  //   const chat = await createChat(user!);
+  //   console.log("chat", chat);
+  //   redirect(`/social/messages/${user?.id}`);
+  // };
 
   return (
     <Card
       className="w-80 h-64 hover:border-orange-200 transition-all ease-in-out hover:scale-105"
-      key={user?.email}
+      key={email}
     >
       <CardHeader className="flex gap-3">
         <Avatar>
@@ -50,15 +54,13 @@ const PeopleCard = ({
         <CardTitle>{username}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-5">
-        <Button className="w-36" onClick={handleSendMessage}>
-          Send a message
-        </Button>
-        {user && (
+        <Button className="w-36">Send a message</Button>
+        {state === "user" && (
           <Button className="w-36" onClick={handleOnClick}>
             Add to friends
           </Button>
         )}
-        {!user && (
+        {state === "friend" && (
           <Button className="w-36" onClick={handleDelete}>
             Delete friend
           </Button>
