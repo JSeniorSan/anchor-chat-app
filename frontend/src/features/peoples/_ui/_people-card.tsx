@@ -10,29 +10,23 @@ const PeopleCard = ({
   state,
   image,
   username,
-  id,
   email,
   userId,
 }: {
   state: "friend" | "user";
   userId?: string | null;
   email?: string | null;
-  username: string | null;
+  username?: string | null;
   image: string | null;
-  id?: string;
 }) => {
   const handleOnClick = async () => {
     if (email) {
-      console.log(email, username, userId, image);
       await createUserFriend(email, username!, userId!, image!);
     }
   };
 
   const handleDelete = async () => {
-    console.log("friends", id);
-
-    await deleteFriend(id!, email!, userId!);
-    console.log("yes");
+    await deleteFriend(email!);
   };
 
   // const handleSendMessage = async () => {

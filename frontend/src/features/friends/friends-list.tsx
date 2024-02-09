@@ -1,4 +1,3 @@
-import { cn } from "@/shared/ui/utils";
 import PeopleCard from "../peoples/_ui/_people-card";
 import { getCurrentUser } from "./action";
 
@@ -24,9 +23,8 @@ const FriendsList = async () => {
               image={friend.image ?? null}
               username={friend.userName}
               userId={friend.userId}
-              id={friend.id}
-              key={friend.userId}
               email={friend.friendEmail}
+              key={friend.userId}
             />
           );
         })}

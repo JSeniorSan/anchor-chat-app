@@ -3,7 +3,6 @@ import { GET } from "@/app/(auth)/api/auth/[...nextauth]/route";
 import { db } from "@/shared/lib/db";
 import { ServerSessionType } from "@/widgets/message-widget/model/friends-types";
 import { getServerSession } from "next-auth";
-import { User } from "./model/types";
 import { revalidatePath } from "next/cache";
 
 export const getAllMembers = async () => {
@@ -27,8 +26,8 @@ export const getAllMembers = async () => {
 };
 
 export const createUserFriend = async (
-  username: string,
   email: string,
+  username: string,
   userId: string,
   image: string
 ) => {
@@ -39,118 +38,83 @@ export const createUserFriend = async (
     },
   });
 
-  const guardFriend = await db.friend.findFirst({
-    where: {
+  await db.friend.create({
+    include: {
+      user: true,
+    },
+    data: {
+      image: image,
+      userName: username,
+      status: true,
       friendEmail: email,
+      userId: currentUser?.id,
+    },
+  });
+  await db.friend.create({
+    include: {
+      user: true,
+    },
+    data: {
+      image: currentUser?.image,
+      userName: currentUser?.name,
+      status: true,
+      friendEmail: currentUser?.email,
       userId: userId,
     },
   });
 
-  if (!guardFriend) {
-    const createFirstUser = await db.friend.create({
-      include: {
-        user: true,
-      },
-      data: {
-        image: image,
-        userName: username,
-        status: true,
-        friendEmail: email,
-        userId: currentUser?.id,
-      },
-    });
-    const createSecondUser = await db.friend.create({
-      include: {
-        user: true,
-      },
-      data: {
-        image: currentUser?.image,
-        userName: currentUser?.name,
-        status: true,
-        friendEmail: currentUser?.email,
-        userId: userId,
-      },
-    });
-
-    //
-    console.log(
-      "currentUser",
-      currentUser,
-      "firstFriend",
-      createFirstUser,
-      "secondFriend",
-      createSecondUser
-    );
-  }
-
-  console.log("current", currentUser);
-
-  // await db.friend.createMany({
-  //   data: [
-  //     {
-  //       status: true,
-  //       userName: member.name,
-  //       userId: currentUser?.id,
-  //       friendEmail: member.email,
-  //     },
-  //     {
-  //       status: true,
-  //       userName: currentUser?.name,
-  //       userId: member?.id,
-  //       friendEmail: currentUser?.email,
-  //     },
-  //   ],
-  // });
-  // const friends = await db.friend.findMany();
+  const friends = await db.friend.findMany({
+    include: {
+      user: true,
+    },
+  });
+  console.log("friends", friends);
 
   revalidatePath("/social/peoples");
 };
 
-export const deleteFriend = async (
-  userId: string,
-  id: string,
-  email: string
-) => {
+export const deleteFriend = async (email: string) => {
   const session: ServerSessionType = await getServerSession(GET);
-  const currentUser = await db.user.findFirst({
+  console.log("first");
+
+  const currentUser = await db.user.findUnique({
     where: {
       email: session?.user.email,
     },
   });
-  const friends = await db.friend.deleteMany();
-  // const deletedFirstFriend = await db.friend.delete({
-  //   where: {
-  //     userId: id,
-  //   },
-  // });
-  // const updatedFirstFriend = await db.user.update({
-  //   where: {
-  //     id: userId,
-  //   },
-  //   include: {
-  //     userFriends: true,
-  //   },
-  //   data: {
-  //     userFriends: {
-  //       disconnect: {
-  //         id: id,
-  //       },
-  //     },
-  //   },
-  // });
+  console.log("second");
 
-  // console.log("deletedFriend", updatedFirstFriend);
-  // console.log(
-  //   id,
-  //   "email",
-  //   email,
-  //   "friends",
-  //   friends,
-  //   "id",
-  //   id,
-  //   "current",
-  //   currentUser
-  // );
+  // await db.friend.deleteMany();
+
+  await db.friend.deleteMany({
+    where: {
+      userId: currentUser?.id,
+      friendEmail: email,
+    },
+  });
+  console.log("third", currentUser?.id, email);
+
+  const opponent = await db.user.findFirst({
+    where: {
+      email: email,
+    },
+  });
+  console.log("forth", opponent, email);
+
+  await db.friend.deleteMany({
+    where: {
+      userId: opponent?.id,
+      friendEmail: currentUser?.email,
+    },
+  });
+
+  const allFriendsAfterDelete = await db.friend.findMany({
+    include: {
+      user: true,
+    },
+  });
+  console.log("fifth", allFriendsAfterDelete);
+
   revalidatePath("/social/peoples");
 };
 
