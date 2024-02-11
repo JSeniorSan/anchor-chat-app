@@ -17,7 +17,7 @@ export async function getChats() {
     where: {
       members: {
         some: {
-          email: currentUser?.email,
+          name: currentUser?.name,
         },
       },
     },
@@ -27,5 +27,8 @@ export async function getChats() {
   });
   console.log("chats", chats);
 
-  return chats;
+  return {
+    chats,
+    currentUser,
+  };
 }

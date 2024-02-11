@@ -4,6 +4,7 @@ import { db } from "@/shared/lib/db";
 import { ServerSessionType } from "@/widgets/message-widget/model/friends-types";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export const getAllMembers = async () => {
   const session: ServerSessionType = await getServerSession(GET);
@@ -120,65 +121,49 @@ export const deleteFriend = async (email: string) => {
 
 // -------------------------------------------------------
 
-export const createChat = async (companion: any) => {
+export const createChat = async (name: string, image: string) => {
   const session: ServerSessionType = await getServerSession(GET);
   const currentUser = await db.user.findFirst({
     where: {
       email: session?.user.email,
     },
   });
+  const chatMember = (await db.chat.findMany()).find(
+    (chat) => chat.title === name
+  );
 
-  const chat = await db.chat.create({
-    data: {
-      title: companion.name,
-      members: {
-        create: [currentUser, companion],
+  console.log("chatMember1", chatMember);
+
+  if (!chatMember) {
+    const chat = await db.chat.create({
+      data: {
+        title: name,
+        members: {
+          create: [
+            {
+              name: currentUser?.name,
+              image: currentUser?.image,
+              // email: currentUser?.email,
+            },
+            {
+              name: name,
+              image: image,
+              // email: email,
+            },
+          ],
+        },
       },
-    },
-    include: {
-      members: true,
-    },
-  });
-  return chat;
+      include: {
+        members: true,
+      },
+    });
+    console.log("chat", chat, chatMember);
+  }
+
+  redirect(`/social/messages/${name.split(" ").join("")}`);
 };
 
-// const updateFirstFriendship = await db.user.update({
-//   where: {
-//     id: currentUser?.id,
-//   },
-//   include: {
-//     userFriends: true,
-//   },
-//   data: {
-//     userFriends: {
-//       create: {
-//         image: image,
-//         userName: username,
-//         status: true,
-//         friendEmail: email,
-//         friendId: currentUser?.id,
-//       },
-//     },
-//   },
-// });
-
-// //
-// const updateSecondFriendship = await db.user.update({
-//   where: {
-//     email: email,
-//   },
-//   include: {
-//     userFriends: true,
-//   },
-//   data: {
-//     userFriends: {
-//       create: {
-//         image: currentUser?.image,
-//         userName: currentUser?.name,
-//         status: true,
-//         friendEmail: currentUser?.email,
-//         friendId: userId,
-//       },
-//     },
-//   },
-// });
+export const deleteAllChats = async () => {
+  await db.chat.deleteMany();
+  revalidatePath("/social/messages");
+};

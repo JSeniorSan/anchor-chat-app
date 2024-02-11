@@ -10,8 +10,8 @@ const ChatLayout = ({
   chatKeyboard: React.ReactNode;
 }) => {
   return (
-    <section className="border-l border-borderColor h-screen">
-      <div className="flex flex-col h-full">
+    <section className="border-l border-borderColor h-screen w-full">
+      <div className="flex flex-col h-full w-full">
         {chatHeader}
         {chatArea}
         {chatKeyboard}
