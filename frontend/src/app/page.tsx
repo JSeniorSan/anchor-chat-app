@@ -1,4 +1,3 @@
-import SvgComponent from "@/shared/assets/logoComponent";
 import { Button } from "@/shared/ui/button";
 import { LogoIcon } from "@/shared/ui/logo-icon";
 
