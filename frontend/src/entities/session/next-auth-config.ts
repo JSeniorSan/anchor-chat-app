@@ -3,16 +3,15 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/shared/lib/db";
 import { AuthOptions } from "next-auth";
-import { UserType } from "./model/types";
 
 export const nextAuthConfig: AuthOptions = {
   session: {
     strategy: "jwt",
   },
   pages: {
-    signIn: "/auth/signin",
-    verifyRequest: "/auth/verify-request",
-    newUser: "/auth/new-user",
+    signIn: "/api//auth/signin",
+    verifyRequest: "/api/auth/verify-request",
+    newUser: "/api/auth/new-user",
   },
   adapter: PrismaAdapter(db) as AuthOptions["adapter"],
   providers: [
