@@ -2,7 +2,11 @@
 import React from "react";
 import { SessionProvider as NextAuthSessionProvider } from "next-auth/react";
 const AppSessionProvider = ({ children }: { children?: React.ReactNode }) => {
-  return <NextAuthSessionProvider>{children}</NextAuthSessionProvider>;
+  return (
+    <NextAuthSessionProvider basePath="/api/auth">
+      {children}
+    </NextAuthSessionProvider>
+  );
 };
 
 export default AppSessionProvider;
