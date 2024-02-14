@@ -17,11 +17,15 @@ const ChatsWidget = async () => {
       {chats.map((chat) => {
         const requiredMember = chat.members.filter(
           (member) => member.name !== currentUser?.name
-        );
-        const member = requiredMember[0];
+        )[0];
 
         return (
-          <UserChatUi key={chat.id} name={member.name} image={member.image!} />
+          <UserChatUi
+            key={chat.id}
+            name={requiredMember.name}
+            image={requiredMember.image!}
+            id={chat.id}
+          />
         );
       })}
       {/* <Button onClick={handleDelete}>Delete all chats</Button> */}

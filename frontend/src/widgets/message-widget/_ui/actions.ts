@@ -23,12 +23,34 @@ export async function getChats() {
     },
     include: {
       members: true,
+      messages: true,
     },
   });
-  console.log("chats", chats);
 
   return {
     chats,
     currentUser,
+  };
+}
+
+export async function getSpecificChat(id: string) {
+  const session: ServerSessionType = await getServerSession(GET);
+  const currentUser = await db.user.findFirst({
+    where: {
+      email: session?.user.email,
+    },
+  });
+
+  const specificChat = await db.chat.findUnique({
+    where: {
+      id: id,
+    },
+    include: {
+      members: true,
+    },
+  });
+
+  return {
+    specificChat,
   };
 }

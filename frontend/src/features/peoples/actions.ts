@@ -128,10 +128,20 @@ export const createChat = async (name: string, image: string) => {
       email: session?.user.email,
     },
   });
-  const chatMember = (await db.chat.findMany()).find(
-    (chat) => chat.title === name
+  // Сделать уникальной проверку
+  const chatMember = (
+    await db.chat.findMany({
+      include: {
+        members: true,
+      },
+    })
+  ).find(
+    (chat) =>
+      chat.title === name &&
+      chat.members.find((member) => member.name === currentUser?.name)
   );
 
+  // -------------------------------------------------------
   console.log("chatMember1", chatMember);
 
   if (!chatMember) {
@@ -143,12 +153,10 @@ export const createChat = async (name: string, image: string) => {
             {
               name: currentUser?.name,
               image: currentUser?.image,
-              // email: currentUser?.email,
             },
             {
               name: name,
               image: image,
-              // email: email,
             },
           ],
         },
@@ -157,10 +165,11 @@ export const createChat = async (name: string, image: string) => {
         members: true,
       },
     });
-    console.log("chat", chat, chatMember);
+    console.log("no yet");
+    redirect(`/social/messages/${chat.id}`);
+  } else {
+    redirect(`/social/messages/${chatMember.id}`);
   }
-
-  redirect(`/social/messages/${name.split(" ").join("")}`);
 };
 
 export const deleteAllChats = async () => {

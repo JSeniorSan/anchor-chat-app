@@ -71,6 +71,7 @@ model Chat {
   updatedAt DateTime @updatedAt
   messages Message[] 
   members  User[] 
+  status   String?
 }
 
 model Message {

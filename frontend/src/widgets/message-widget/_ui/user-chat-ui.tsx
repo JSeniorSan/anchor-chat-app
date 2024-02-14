@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { cn } from "@/shared/ui/utils";
 import Link from "next/link";
 import React from "react";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const UserChatUi = ({
   name,
@@ -17,14 +17,15 @@ const UserChatUi = ({
   lastMessage?: string | undefined;
 }) => {
   const pathname = usePathname();
+  console.log("id", id);
 
   return (
-    <Link href={`/social/messages/${name}`}>
+    <Link href={`/social/messages/${id}`}>
       <div
         className={cn(
-          "p-3 transition-all ease-in-out flex w-full hover:border-slate-400  hover:cursor-pointer items-center border-y border-borderColor",
+          "p-3 transition-all ease-in-out flex w-full hover:border-blue-400  hover:cursor-pointer items-center border-y border-borderColor",
           {
-            ["border-slate-400"]: pathname === `/social/messages/${name}`,
+            ["border-slate-400"]: pathname === `/social/messages/${id}`,
           }
         )}
       >

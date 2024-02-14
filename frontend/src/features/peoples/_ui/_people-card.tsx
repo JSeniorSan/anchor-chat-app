@@ -3,9 +3,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { createChat, createUserFriend, deleteFriend } from "../actions";
-import { User } from "../model/types";
-import { redirect } from "next/navigation";
-import { db } from "@/shared/lib/db";
 
 const PeopleCard = ({
   state,
@@ -31,7 +28,7 @@ const PeopleCard = ({
   };
 
   const handleSendMessage = async () => {
-    const chat = await createChat(username!, image!);
+    await createChat(username!, image!);
   };
 
   return (
