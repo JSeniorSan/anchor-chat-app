@@ -1,9 +1,5 @@
-"use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
-import { ChatTypes } from "@/widgets/message-widget/model/friends-types";
 import { MoreHorizontal, Search } from "lucide-react";
-import { usePathname } from "next/navigation";
-import React from "react";
 
 const ChatHeader = ({
   image,
@@ -14,9 +10,6 @@ const ChatHeader = ({
   name: string;
   activity?: string;
 }) => {
-  // const pathname = usePathname();
-  // const chatId = pathname.split("/")[3];
-  // const chat = chats.find((chat) => chat.id === chatId);
   return (
     <div className="flex justify-between items-center ">
       <div className="flex gap-1 p-3 items-center">

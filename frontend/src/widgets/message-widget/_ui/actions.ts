@@ -52,5 +52,6 @@ export async function getSpecificChat(id: string) {
 
   return {
     specificChat,
+    currentUser,
   };
 }

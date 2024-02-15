@@ -17,7 +17,6 @@ const UserChatUi = ({
   lastMessage?: string | undefined;
 }) => {
   const pathname = usePathname();
-  console.log("id", id);
 
   return (
     <Link href={`/social/messages/${id}`}>
