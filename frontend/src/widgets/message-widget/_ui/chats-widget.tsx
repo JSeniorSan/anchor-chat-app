@@ -7,6 +7,7 @@ import UserChatUi from "./user-chat-ui";
 
 const ChatsWidget = async () => {
   const { chats, currentUser } = await getChats();
+  console.log("chats all", chats);
 
   // const handleDelete = async () => {
   //   await deleteAllChats();

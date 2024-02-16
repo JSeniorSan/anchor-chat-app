@@ -1,10 +1,8 @@
-"use server";
-
 import { GET } from "@/app/(auth)/api/auth/[...nextauth]/route";
 import { db } from "@/shared/lib/db";
 import { getServerSession } from "next-auth";
 import { ServerSessionType } from "../model/friends-types";
-
+import { nextAuthConfig } from "@/entities/session/next-auth-config";
 export async function getChats() {
   const session: ServerSessionType = await getServerSession(GET);
   const currentUser = await db.user.findFirst({

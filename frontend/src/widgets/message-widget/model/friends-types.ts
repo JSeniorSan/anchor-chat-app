@@ -11,18 +11,19 @@ export type FriendsType = {
 
 export type ChatTypes = {
   id: string;
-  title: string;
+  title: string | null;
   messages: MessageType[];
   createdAt: Date;
   updatedAt: Date;
   members: UserType[];
+  status: string | null;
 };
 
 export type MessageType = {
   id: string;
   createdAt: Date;
   content?: string;
-  author: UserType;
+  author?: UserType;
   authorId: string;
   chat?: ChatTypes;
   chatId?: string;
