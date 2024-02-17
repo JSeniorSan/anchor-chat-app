@@ -53,9 +53,11 @@ const ChatKeyboard = ({ onSendMessage }: { onSendMessage: SendFn }) => {
         value={inputValue}
       />
 
-      <Button className="cursor-pointer" onClick={handleClick}>
-        <ArrowRightCircleIcon size={"50px"} className="stroke-1 " />
-      </Button>
+      <ArrowRightCircleIcon
+        size={"50px"}
+        className="stroke-1 "
+        onClick={handleClick}
+      />
 
       <StickerIcon size={"35px"} className="stroke-1" />
       <Mic size={"35px"} className="stroke-1" />

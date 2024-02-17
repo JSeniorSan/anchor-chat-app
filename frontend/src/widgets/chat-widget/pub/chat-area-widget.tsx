@@ -6,13 +6,14 @@ import { getChats } from "@/widgets/message-widget/_ui/actions";
 import ChatHeaderClient from "../_ui/chat-header-client";
 
 const ChatAreaWidget = async () => {
-  const { chats } = await getChats();
+  const { chats, currentUser } = await getChats();
 
   return (
     <ChatLayout
-      chatHeader={<ChatHeaderClient chats={chats} />}
+      chatHeader={
+        <ChatHeaderClient chats={chats} currentUserName={currentUser?.name!} />
+      }
       chatArea={<ChatArea />}
-      chatKeyboard={<ChatKeyboard />}
     />
   );
 };

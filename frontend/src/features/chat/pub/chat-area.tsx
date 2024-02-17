@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
+import { Socket, io } from "socket.io-client";
 import ChatKeyboard from "../_ui/chat-keyboard";
 
 export interface message {
@@ -13,10 +13,13 @@ export interface message {
 
 const ChatArea = () => {
   const [chatArr, setChatArr] = useState<message[]>([]);
-  const socket = io("http://localhost:5000");
+  const [socket, setSocket] = useState<any>(undefined);
 
   useEffect(() => {
-    socket.on("connect", async () => {
+    const socket = io("http://localhost:5000");
+    setSocket(socket);
+
+    socket.on("connect", () => {
       console.log("client connected");
     });
 
@@ -34,6 +37,7 @@ const ChatArea = () => {
   const handleSendMessage = (data: message) => {
     socket.emit("sendMessage", data);
   };
+
   return (
     <section className="w-full bg-transparent border-t border-borderColor h-full flex flex-col justify-between items-center">
       <div className="flex flex-col items-start w-full">
