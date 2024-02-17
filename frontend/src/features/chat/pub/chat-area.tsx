@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Socket, io } from "socket.io-client";
+import { io } from "socket.io-client";
 import ChatKeyboard from "../_ui/chat-keyboard";
+import ChatMessageUi from "../_ui/chat-message-ui";
 
 export interface message {
   author: string;
@@ -11,7 +12,13 @@ export interface message {
   time: string;
 }
 
-const ChatArea = () => {
+const ChatArea = ({
+  currentUserName,
+  currentUserImage,
+}: {
+  currentUserName: string;
+  currentUserImage: string;
+}) => {
   const [chatArr, setChatArr] = useState<message[]>([]);
   const [socket, setSocket] = useState<any>(undefined);
 
@@ -43,13 +50,20 @@ const ChatArea = () => {
       <div className="flex flex-col items-start w-full">
         {chatArr.map((chat, i) => {
           return (
-            <h1 key={i} className="p-5">
-              {chat.content}
-            </h1>
+            <ChatMessageUi
+              content={chat.content!}
+              isMe={chat.author === currentUserName}
+              time={chat.time}
+              key={i}
+            />
           );
         })}
       </div>
-      <ChatKeyboard onSendMessage={handleSendMessage} />
+      <ChatKeyboard
+        onSendMessage={handleSendMessage}
+        currentUserName={currentUserName}
+        currentUserImage={currentUserImage}
+      />
     </section>
   );
 };

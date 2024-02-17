@@ -8,11 +8,18 @@ import {
 } from "lucide-react";
 import { useRef, useState } from "react";
 import { message } from "../pub/chat-area";
-import { Button } from "@/shared/ui/button";
 
 type SendFn = (data: message) => void;
 
-const ChatKeyboard = ({ onSendMessage }: { onSendMessage: SendFn }) => {
+const ChatKeyboard = ({
+  onSendMessage,
+  currentUserName,
+  currentUserImage,
+}: {
+  onSendMessage: SendFn;
+  currentUserName: string;
+  currentUserImage: string;
+}) => {
   const [inputValue, setInputValue] = useState<string>("");
 
   console.log("message content", inputValue);
@@ -28,14 +35,18 @@ const ChatKeyboard = ({ onSendMessage }: { onSendMessage: SendFn }) => {
   //   });
   // };
 
+  const date = new Intl.DateTimeFormat("en-US", {
+    timeStyle: "short",
+  }).format(new Date());
+
   const handleClick = () => {
     onSendMessage({
-      author: "ira",
+      author: currentUserName,
       content: inputValue,
-      image: "",
-      time: "9:00",
+      image: currentUserImage,
+      time: date,
     });
-    console.log("click");
+    setInputValue("");
   };
 
   return (
