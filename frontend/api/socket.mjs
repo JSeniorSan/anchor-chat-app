@@ -5,14 +5,17 @@ const httpServer = createServer();
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
-    withCredentials: true,
   },
 });
 
 io.on("connection", async (socket) => {
-  console.log(socket.id);
+  socket.on("sendMessage", (data) => {
+    console.log("data", data);
+
+    io.emit("responseEvent", data);
+  });
 });
 
 httpServer.listen(5000, () => {

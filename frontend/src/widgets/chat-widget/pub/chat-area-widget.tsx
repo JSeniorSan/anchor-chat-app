@@ -1,7 +1,7 @@
 import React from "react";
 import ChatLayout from "../_ui/layout";
 import ChatArea from "@/features/chat/pub/chat-area";
-import ChatKeyboard from "@/features/chat/pub/chat-keyboard";
+import ChatKeyboard from "@/features/chat/_ui/chat-keyboard";
 import { getChats } from "@/widgets/message-widget/_ui/actions";
 import ChatHeaderClient from "../_ui/chat-header-client";
 
