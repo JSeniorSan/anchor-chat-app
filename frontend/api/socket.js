@@ -1,3 +1,5 @@
+// import { createMessage, getMessages } from "@/features/chat/action";
+
 import { createServer } from "http";
 import { Server } from "socket.io";
 
@@ -11,7 +13,9 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", async (socket) => {
-  socket.on("sendMessage", (data) => {
+  socket.on("connect", async () => {});
+
+  socket.on("sendMessage", async (data) => {
     console.log("data", data);
 
     io.emit("responseEvent", data);

@@ -1,16 +1,9 @@
 import React from "react";
 
-const ChatLayout = ({
-  chatHeader,
-  chatArea,
-}: {
-  chatHeader: React.ReactNode;
-  chatArea: React.ReactNode;
-}) => {
+const ChatLayout = ({ chatArea }: { chatArea: React.ReactNode }) => {
   return (
-    <section className="border-l border-borderColor h-screen w-full">
-      <div className="flex flex-col h-full w-full">
-        {chatHeader}
+    <section className="border-l border-borderColor h-screen w-full ">
+      <div className="flex flex-col h-[calc(100vh-93.5px)] w-full ">
         {chatArea}
       </div>
     </section>

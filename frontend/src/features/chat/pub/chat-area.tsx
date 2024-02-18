@@ -3,24 +3,30 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import ChatKeyboard from "../_ui/chat-keyboard";
-import ChatMessageUi from "../_ui/chat-message-ui";
+import ChatHeaderClient from "@/widgets/chat-widget/_ui/chat-header-client";
+import { usePathname } from "next/navigation";
+import MessagesFolder from "../_ui/messages-folder";
 
 export interface message {
-  author: string;
+  authorId: string;
   content: string | undefined;
-  image: string;
-  time: string;
+  chatId: string;
 }
 
 const ChatArea = ({
+  chats,
   currentUserName,
-  currentUserImage,
+  currentUserId,
 }: {
+  chats: any;
   currentUserName: string;
-  currentUserImage: string;
+  currentUserId: string;
 }) => {
   const [chatArr, setChatArr] = useState<message[]>([]);
   const [socket, setSocket] = useState<any>(undefined);
+
+  const pathChatId = usePathname().split("/").at(-1);
+  console.log("path", pathChatId);
 
   useEffect(() => {
     const socket = io("http://localhost:5000");
@@ -45,26 +51,35 @@ const ChatArea = ({
     socket.emit("sendMessage", data);
   };
 
+  const currentChat = chats.find((chat: any) => {
+    return chat?.id === pathChatId;
+  });
+  console.log("currentChat", currentChat);
+
+  const currentOpponent = currentChat.members.find(
+    (member: any) => member.name !== currentUserName
+  );
+
   return (
-    <section className="w-full bg-transparent border-t border-borderColor h-full flex flex-col justify-between items-center">
-      <div className="flex flex-col items-start w-full">
-        {chatArr.map((chat, i) => {
-          return (
-            <ChatMessageUi
-              content={chat.content!}
-              isMe={chat.author === currentUserName}
-              time={chat.time}
-              key={i}
-            />
-          );
-        })}
+    <div className="h-[calc(100vh-200.5px)] w-full">
+      <ChatHeaderClient
+        opponentName={currentOpponent.name}
+        opponentImage={currentOpponent.image}
+      />
+
+      <div className="w-full bg-transparent border-t border-borderColor h-full flex flex-col justify-between items-center ">
+        <MessagesFolder
+          currentChatId={currentChat.id}
+          allMessages={chatArr}
+          currentUserId={currentUserId}
+        />
       </div>
       <ChatKeyboard
         onSendMessage={handleSendMessage}
-        currentUserName={currentUserName}
-        currentUserImage={currentUserImage}
+        chatId={currentChat.id}
+        currentUserId={currentUserId}
       />
-    </section>
+    </div>
   );
 };
 

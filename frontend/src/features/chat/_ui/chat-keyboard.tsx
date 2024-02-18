@@ -13,12 +13,12 @@ type SendFn = (data: message) => void;
 
 const ChatKeyboard = ({
   onSendMessage,
-  currentUserName,
-  currentUserImage,
+  currentUserId,
+  chatId,
 }: {
   onSendMessage: SendFn;
-  currentUserName: string;
-  currentUserImage: string;
+  currentUserId: string;
+  chatId: string;
 }) => {
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -35,23 +35,18 @@ const ChatKeyboard = ({
   //   });
   // };
 
-  const date = new Intl.DateTimeFormat("en-US", {
-    timeStyle: "short",
-  }).format(new Date());
-
   const handleClick = () => {
     onSendMessage({
-      author: currentUserName,
+      authorId: currentUserId,
       content: inputValue,
-      image: currentUserImage,
-      time: date,
+      chatId: chatId,
     });
     setInputValue("");
   };
 
   return (
     <div
-      className="w-full h-auto flex items-center gap-2 p-3 border-borderColor py-6"
+      className="w-full h-auto flex items-center gap-2 p-3 border-borderColor py-6  "
       // onSubmit={handleForm}
     >
       <Paperclip size={"35px"} className="stroke-1" />
