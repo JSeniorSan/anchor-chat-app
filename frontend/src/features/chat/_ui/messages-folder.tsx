@@ -1,36 +1,32 @@
 "use client";
-import { createMessage } from "../action";
+
 import ChatMessageUi from "./chat-message-ui";
-import { message } from "../pub/chat-area";
+import { messageFromDb } from "../model/db-message";
+import { useEffect, useLayoutEffect } from "react";
+import { getAllMessagesAction } from "../action";
 
 const MessagesFolder = ({
   currentChatId,
   allMessages,
   currentUserId,
+  setAllMessages,
 }: {
+  setAllMessages: (data: any[]) => void;
   currentChatId: string;
-  allMessages: message[];
+  allMessages: messageFromDb[];
   currentUserId: string;
 }) => {
-  //   const [messages, setMessages] = useState<any[]>([]);
-  //   useEffect(() => {
-  //     const getAllMessages = async () => {
-  //       const allMessages = await getMessages(currentChatId);
-  //       console.log("messages", allMessages);
-
-  //       setMessages(allMessages!);
-  //     };
-  //     getAllMessages();
-  //   }, []);
-
-  //   useEffect(() => {
-  //     setMessages((prev: any) => {
-  //       return [...prev, ...allMessages];
-  //     });
-  //   }, [allMessages]);
+  useEffect(() => {
+    const getAllMessagesFn = async () => {
+      const allMessagesFromDb = await getAllMessagesAction(currentChatId);
+      const arr = allMessagesFromDb?.slice(0, -1);
+      setAllMessages(arr!);
+    };
+    getAllMessagesFn();
+  }, []);
 
   return (
-    <section className="w-full bg-transparent border-t border-borderColor h-full flex flex-col justify-between items-center overflow-auto">
+    <section className="w-full bg-transparent border-t border-borderColor h-full flex flex-col justify-between items-center overflow-auto ">
       <div className="flex flex-col items-start w-full ">
         {allMessages.map((message: any, i: any) => {
           return (

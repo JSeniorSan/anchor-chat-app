@@ -7,15 +7,13 @@ const ChatAreaWidget = async () => {
   const { chats, currentUser } = await getChats();
 
   return (
-    <ChatLayout
-      chatArea={
-        <ChatArea
-          chats={chats}
-          currentUserName={currentUser?.name!}
-          currentUserId={currentUser?.id!}
-        />
-      }
-    />
+    <ChatLayout>
+      <ChatArea
+        chats={chats}
+        currentUserName={currentUser?.name!}
+        currentUserId={currentUser?.id!}
+      />
+    </ChatLayout>
   );
 };
 
