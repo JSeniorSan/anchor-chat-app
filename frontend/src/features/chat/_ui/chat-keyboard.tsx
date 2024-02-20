@@ -6,7 +6,7 @@ import {
   Paperclip,
   StickerIcon,
 } from "lucide-react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { message } from "../pub/chat-area";
 
 type SendFn = (data: message) => void;
@@ -21,19 +21,6 @@ const ChatKeyboard = ({
   chatId: string;
 }) => {
   const [inputValue, setInputValue] = useState<string>("");
-
-  console.log("message content", inputValue);
-
-  // const handleForm = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-
-  //   onSendMessage({
-  //     author: "ira",
-  //     content: ref.current?.value,
-  //     image: "",
-  //     time: "9:00",
-  //   });
-  // };
 
   const handleClick = () => {
     onSendMessage({

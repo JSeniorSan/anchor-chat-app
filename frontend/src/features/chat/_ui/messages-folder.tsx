@@ -2,28 +2,21 @@
 
 import ChatMessageUi from "./chat-message-ui";
 import { messageFromDb } from "../model/db-message";
-import { useEffect, useLayoutEffect } from "react";
-import { getAllMessagesAction } from "../action";
+// import { useEffect, useLayoutEffect } from "react";
+// import { getAllMessagesAction } from "../action";
 
 const MessagesFolder = ({
-  currentChatId,
+  // currentChatId,
   allMessages,
   currentUserId,
-  setAllMessages,
-}: {
+}: // setAllMessages,
+{
   setAllMessages: (data: any[]) => void;
   currentChatId: string;
   allMessages: messageFromDb[];
   currentUserId: string;
 }) => {
-  useEffect(() => {
-    const getAllMessagesFn = async () => {
-      const allMessagesFromDb = await getAllMessagesAction(currentChatId);
-      const arr = allMessagesFromDb?.slice(0, -1);
-      setAllMessages(arr!);
-    };
-    getAllMessagesFn();
-  }, []);
+  console.log("conyent", allMessages);
 
   return (
     <section className="w-full bg-transparent border-t border-borderColor h-full flex flex-col justify-between items-center overflow-auto ">
@@ -31,9 +24,9 @@ const MessagesFolder = ({
         {allMessages.map((message: any, i: any) => {
           return (
             <ChatMessageUi
-              content={message.content!}
-              isMe={message.authorId === currentUserId}
-              time={message.createdAt}
+              content={message?.content}
+              isMe={message?.authorId === currentUserId}
+              time={message?.createdAt}
               key={i}
             />
           );

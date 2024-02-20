@@ -1,5 +1,3 @@
-// import { createMessage, getMessages } from "@/features/chat/action";
-
 import { createServer } from "http";
 import { Server } from "socket.io";
 
@@ -19,6 +17,10 @@ io.on("connection", async (socket) => {
     console.log("data", data);
 
     io.emit("responseEvent", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("A user disconnected");
   });
 });
 

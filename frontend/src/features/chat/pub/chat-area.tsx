@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
 import ChatKeyboard from "../_ui/chat-keyboard";
 import ChatHeaderClient from "@/widgets/chat-widget/_ui/chat-header-client";
 import { usePathname } from "next/navigation";
 import MessagesFolder from "../_ui/messages-folder";
-import { createMessageAction } from "../action";
+import { createMessageAction, getAllMessagesAction } from "../action";
 import { messageFromDb } from "../model/db-message";
+import { socket } from "@/entities/socket/create-socket";
 
 export interface message {
   authorId: string;
@@ -25,23 +25,22 @@ const ChatArea = ({
   currentUserId: string;
 }) => {
   const [chatArr, setChatArr] = useState<messageFromDb[]>([]);
-  const [socket, setSocket] = useState<any>(undefined);
-  console.log("chatArr", chatArr);
-
   const pathChatId = usePathname().split("/").at(-1);
-  console.log("path", pathChatId);
   const currentChat = chats.find((chat: any) => {
     return chat?.id === pathChatId;
   });
-  console.log("currentChat", currentChat);
 
   const currentOpponent = currentChat.members.find(
     (member: any) => member.name !== currentUserName
   );
 
   useEffect(() => {
-    const socket = io("http://localhost:5000");
-    setSocket(socket);
+    const getAllMessagesFn = async () => {
+      const allMessagesFromDb = await getAllMessagesAction(pathChatId!);
+      setChatArr(allMessagesFromDb! as any);
+    };
+
+    getAllMessagesFn();
 
     socket.on("connect", () => {
       console.log("client connected");
@@ -49,18 +48,16 @@ const ChatArea = ({
 
     socket.on("responseEvent", async (data: message) => {
       const responseMessage = await createMessageAction(data);
-      console.log("responseMessage", responseMessage?.chatId);
+      console.log("responseMessage");
 
-      if (responseMessage && pathChatId === responseMessage.chatId) {
-        setChatArr((prev: any) => {
-          return [...prev, responseMessage];
-        });
-      }
+      setChatArr((prev: any) => {
+        return [...prev, responseMessage];
+      });
     });
 
-    return () => {
-      socket.disconnect();
-    };
+    // return () => {
+    //   socket.disconnect();
+    // };
   }, []);
 
   const handleSendMessage = (data: message) => {
@@ -83,9 +80,9 @@ const ChatArea = ({
         />
       </div>
       <ChatKeyboard
-        onSendMessage={handleSendMessage}
         chatId={currentChat.id}
         currentUserId={currentUserId}
+        onSendMessage={handleSendMessage}
       />
     </div>
   );
