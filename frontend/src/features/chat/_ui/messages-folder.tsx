@@ -16,8 +16,6 @@ const MessagesFolder = ({
   allMessages: messageFromDb[];
   currentUserId: string;
 }) => {
-  console.log("conyent", allMessages);
-
   return (
     <section className="w-full bg-transparent border-t border-borderColor h-full flex flex-col justify-between items-center overflow-auto ">
       <div className="flex flex-col items-start w-full ">

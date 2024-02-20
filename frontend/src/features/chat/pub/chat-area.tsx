@@ -46,22 +46,22 @@ const ChatArea = ({
       console.log("client connected");
     });
 
-    socket.on("responseEvent", async (data: message) => {
-      const responseMessage = await createMessageAction(data);
+    socket.on("responseEvent", async (data: messageFromDb) => {
       console.log("responseMessage");
 
       setChatArr((prev: any) => {
-        return [...prev, responseMessage];
+        return [...prev, data];
       });
     });
 
-    // return () => {
-    //   socket.disconnect();
-    // };
+    return () => {
+      socket.off("responseEvent");
+    };
   }, []);
 
-  const handleSendMessage = (data: message) => {
-    socket.emit("sendMessage", data);
+  const handleSendMessage = async (data: message) => {
+    const responseMessage = await createMessageAction(data);
+    socket.emit("sendMessage", responseMessage);
   };
 
   return (
