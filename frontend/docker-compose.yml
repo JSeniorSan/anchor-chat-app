@@ -10,7 +10,25 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=postgres
+    # networks:
+    #   - database
     volumes:
       - db-data:/var/lib/postgresql/data
+
+  # chat-app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: chat-app
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - .:/chat-app
+  #     - /chat-app/node_modules
+  #   networks:
+  #     - database
+
 volumes:
   db-data:
+# networks:
+#   database:

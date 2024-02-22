@@ -10,7 +10,7 @@ const ChatMessageUi = ({
   console.log("time", time);
 
   function timing(timeOclock: Date) {
-    if (timeOclock.toString().split(" ")[1]) {
+    if (timeOclock?.toString().split(" ")[1]) {
       const date = new Intl.DateTimeFormat("ru-RU", {
         timeStyle: "short",
       }).format(time);

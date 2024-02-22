@@ -15,6 +15,11 @@ export interface message {
   chatId: string;
 }
 
+export interface infoMessage {
+  name: String;
+  content: String;
+}
+
 const ChatArea = ({
   chats,
   currentUserName,
@@ -25,6 +30,7 @@ const ChatArea = ({
   currentUserId: string;
 }) => {
   const [chatArr, setChatArr] = useState<messageFromDb[]>([]);
+  const [info, setInfo] = useState<infoMessage[]>([]);
   const pathChatId = usePathname().split("/").at(-1);
   const currentChat = chats.find((chat: any) => {
     return chat?.id === pathChatId;
@@ -46,22 +52,30 @@ const ChatArea = ({
       console.log("client connected");
     });
 
-    socket.on("responseEvent", async (data: messageFromDb) => {
+    socket.emit("join", pathChatId);
+
+    socket.on("notification", (messageData: infoMessage) => {
+      setInfo((prev: infoMessage[]) => {
+        return [...prev, messageData];
+      });
+    });
+
+    socket.on("message", async (data: messageFromDb) => {
       console.log("responseMessage");
 
-      setChatArr((prev: any) => {
+      setChatArr((prev: messageFromDb[]) => {
         return [...prev, data];
       });
     });
 
     return () => {
-      socket.off("responseEvent");
+      socket.off("message");
     };
   }, []);
 
   const handleSendMessage = async (data: message) => {
     const responseMessage = await createMessageAction(data);
-    socket.emit("sendMessage", responseMessage);
+    socket.emit("chat", responseMessage);
   };
 
   return (
@@ -73,6 +87,7 @@ const ChatArea = ({
 
       <div className="w-full bg-transparent border-t border-borderColor h-full flex flex-col justify-between items-center ">
         <MessagesFolder
+          infoMessage={info}
           currentChatId={currentChat.id}
           allMessages={chatArr}
           currentUserId={currentUserId}

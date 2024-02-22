@@ -85,8 +85,6 @@ export const deleteFriend = async (email: string) => {
   });
   console.log("second");
 
-  // await db.friend.deleteMany();
-
   await db.friend.deleteMany({
     where: {
       userId: currentUser?.id,
