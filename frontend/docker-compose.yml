@@ -1,7 +1,17 @@
-version: "3"
+version: "3.8"
 
 services:
+  socket:
+    container_name: socket
+    image: socket
+    build:
+      context: "../backend"
+      dockerfile: socket.dockerfile
+    ports:
+      - "5000:5000"
+
   db:
+    container_name: db
     image: postgres
     restart: always
     ports:
@@ -10,25 +20,27 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=postgres
-    # networks:
-    #   - database
     volumes:
       - db-data:/var/lib/postgresql/data
 
-  # chat-app:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   container_name: chat-app
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - .:/chat-app
-  #     - /chat-app/node_modules
-  #   networks:
-  #     - database
+  chat-app:
+    container_name: chat-app
+    image: frontend
+    build:
+      context: .
+      dockerfile: frontend.dockerfile
+
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/chat-app
+      - /chat-app/node_modules
+    depends_on:
+      - db
+      - socket
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:5000
+    restart: always
 
 volumes:
   db-data:
-# networks:
-#   database:

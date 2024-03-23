@@ -1,7 +1,5 @@
 import { Button } from "@/shared/ui/button";
-import { LogoIcon } from "@/shared/ui/logo-icon";
-import Image from "next/image";
-import AnchorIcon from "../../public/Group 6.svg";
+import AnchorIcon from "../../public/group_6.svg";
 import MainPic from "../../public/Group 8.svg";
 import Link from "next/link";
 
@@ -16,7 +14,7 @@ export default function Home() {
           </h1>
           <h2 className="text-4xl">Chat app</h2>
         </div>
-        <div className="flex gap-10">
+        <div className="flex gap-24">
           <div className="flex flex-col gap-5">
             <p className="max-w-[400px] h-fit flex-shrink">
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus

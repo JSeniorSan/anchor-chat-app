@@ -12,15 +12,7 @@ const io = new Server(httpServer, {
 
 io.on("connection", async (socket) => {
   console.log("A user connected!");
-
-  // socket.on("sendMessage", async (data) => {
-  //   console.log("data", data);
-
-  //   io.emit("responseEvent", data);
-  // });
-
-  // =======================
-  // Chat logic
+  S;
 
   socket.on("join", (room) => {
     console.log("A user joined the room " + room);
@@ -46,8 +38,6 @@ io.on("connection", async (socket) => {
       content: data.content,
     });
   });
-
-  // =========================================
 
   socket.on("disconnect", () => {
     console.log("A user disconnected");
