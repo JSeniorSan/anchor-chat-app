@@ -40,6 +40,8 @@ services:
       - socket
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:5000
+      - DATABASE_URL="postgresql://postgres:postgres@db:5432/postgres?schema=public"
+
     restart: always
 
 volumes:
