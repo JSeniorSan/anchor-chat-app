@@ -12,7 +12,6 @@ const io = new Server(httpServer, {
 
 io.on("connection", async (socket) => {
   console.log("A user connected!");
-  S;
 
   socket.on("join", (room) => {
     console.log("A user joined the room " + room);
