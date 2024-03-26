@@ -6,7 +6,7 @@ import { AuthOptions } from "next-auth";
 
 export const nextAuthConfig: AuthOptions = {
   session: {
-    strategy: "jwt",
+    strategy: "database",
   },
   pages: {
     signIn: "/api/auth/signin",
