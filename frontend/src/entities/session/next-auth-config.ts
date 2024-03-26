@@ -9,7 +9,7 @@ export const nextAuthConfig: AuthOptions = {
     strategy: "jwt",
   },
   pages: {
-    signIn: "/api//auth/signin",
+    signIn: "/api/auth/signin",
     verifyRequest: "/api/auth/verify-request",
     newUser: "/api/auth/new-user",
   },
