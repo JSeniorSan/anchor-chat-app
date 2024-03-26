@@ -27,7 +27,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-RUN npx prisma generate --schema ./prisma/schema.prisma
+# RUN npx prisma generate --schema ./prisma/schema.prisma
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
@@ -43,8 +43,13 @@ RUN yarn build && ls -l /app/.next
 FROM base AS runner
 WORKDIR /app
 
+ARG DATABASE_URL
+ARG NEXTAUTH_SECRET
+
 ENV NODE_ENV production
 COPY .env /app/
+
+
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
@@ -80,29 +85,3 @@ ENV HOSTNAME "0.0.0.0"
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
 CMD ["./docker-entrypoint.sh"]
 
-
-
-
-
-
-# FROM node:18-alpine
-# # RUN apt-get update -y && apt-get install -y openssl
-
-# WORKDIR /chat-app
-
-# COPY package*.json ./
-# RUN npm install
-
-# RUN npm ci
-# COPY prisma ./prisma
-# RUN npx prisma generate
-
-# COPY . .
-
-# RUN npm run build
-
-# COPY .next ./.next.
-
-# EXPOSE 4000
-
-# CMD ["npm", "run", "dev"]
